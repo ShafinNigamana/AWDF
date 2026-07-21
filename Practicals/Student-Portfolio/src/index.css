@@ -600,41 +600,13 @@ footer {
   }
 }
 
-/* Projects API states and search */
 .project-card {
   display: flex;
   flex-direction: column;
 }
 
-.project-search {
-  margin-top: 1rem;
-}
-
-.project-search label {
-  display: block;
-  margin-bottom: 0.35rem;
-  font-weight: 600;
-  color: var(--text);
-}
-
-.project-search input {
-  width: 100%;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 0.7rem;
-  font: inherit;
-  color: var(--text);
-  background: #ffffff;
-}
-
-.project-search input:focus {
-  outline: 2px solid #ffd3b3;
-  border-color: var(--primary);
-}
-
 .spinner-container,
-.error-message,
-.no-projects {
+.error-message {
   margin-top: 1rem;
   padding: 1rem;
   border-radius: 6px;
@@ -672,15 +644,12 @@ footer {
   margin-top: 0.45rem;
 }
 
-.no-projects {
-  text-align: center;
-  color: var(--text-secondary);
-  background: #fff8f2;
-}
-
 .project-details-button {
   width: 100%;
+  min-height: 3.45rem;
   padding: 0.6rem 1rem;
+  font: inherit;
+  line-height: inherit;
 }
 
 @keyframes spin {

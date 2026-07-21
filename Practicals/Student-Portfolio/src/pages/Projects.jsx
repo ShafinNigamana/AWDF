@@ -3,14 +3,32 @@ import ErrorMessage from '../components/ErrorMessage';
 import Spinner from '../components/Spinner';
 
 const PROJECTS_API_URL = 'https://jsonplaceholder.typicode.com/posts';
+const MINIMUM_LOADING_DURATION = 600;
+const PORTFOLIO_PROJECTS = [
+  {
+    title: 'UniEvents',
+    body: 'University management system.',
+    githubUrl: 'https://github.com/ShafinNigamana/Unievents',
+  },
+  {
+    title: 'TaskSphere',
+    body: 'Team collaboration and task management system.',
+    githubUrl: 'https://github.com/ShafinNigamana/TaskSphere',
+  },
+  {
+    title: 'Argus',
+    body: 'Cybersecurity monitoring system for detecting network intrusions and monitoring traffic logs.',
+    githubUrl: 'https://github.com/ShafinNigamana/Argus',
+  },
+];
 
 function Projects() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [search, setSearch] = useState('');
 
   const fetchProjects = async (signal) => {
+    const requestStartedAt = Date.now();
     setLoading(true);
     setError(null);
 
@@ -22,12 +40,23 @@ function Projects() {
       }
 
       const projectData = await response.json();
-      setProjects(projectData);
+      const portfolioProjects = projectData.slice(0, PORTFOLIO_PROJECTS.length).map((project, index) => ({
+        ...project,
+        ...PORTFOLIO_PROJECTS[index],
+      }));
+
+      setProjects(portfolioProjects);
     } catch (requestError) {
       if (requestError.name !== 'AbortError') {
         setError('Unable to load projects.');
       }
     } finally {
+      const remainingLoadingTime = MINIMUM_LOADING_DURATION - (Date.now() - requestStartedAt);
+
+      if (remainingLoadingTime > 0) {
+        await new Promise((resolve) => setTimeout(resolve, remainingLoadingTime));
+      }
+
       if (!signal?.aborted) {
         setLoading(false);
       }
@@ -41,44 +70,32 @@ function Projects() {
     return () => controller.abort();
   }, []);
 
-  const filteredProjects = projects.filter((project) => {
-    const searchTerm = search.toLowerCase();
-
-    return (
-      project.title.toLowerCase().includes(searchTerm) ||
-      project.body.toLowerCase().includes(searchTerm)
-    );
-  });
-
   return (
     <main className="page-content container">
       <section className="card">
         <h1>Projects</h1>
         <p className="section-intro">A selection of academic and personal work.</p>
 
-        <div className="project-search">
-          <label htmlFor="project-search">Search Projects</label>
-          <input id="project-search" type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search by title or description" />
-        </div>
 
         {loading && <Spinner />}
         {error && <ErrorMessage onRetry={() => fetchProjects()} />}
 
         {!loading && !error && (
           <div className="projects-grid">
-            {filteredProjects.map((project) => (
+            {projects.map((project) => (
               <article className="project-card" key={project.id}>
                 <div className="project-card-header"><h2>{project.title}</h2></div>
                 <p>{project.body}</p>
                 <div className="project-card-footer">
-                  <button type="button" className="btn project-details-button">View Details</button>
+                  <a className="btn project-details-button" href={project.githubUrl} target="_blank" rel="noreferrer">
+                    Repository Link
+                  </a>
                 </div>
               </article>
             ))}
           </div>
         )}
 
-        {!loading && !error && filteredProjects.length === 0 && <p className="no-projects">No projects match your search.</p>}
       </section>
     </main>
   );
