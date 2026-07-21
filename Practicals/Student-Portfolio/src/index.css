@@ -599,3 +599,92 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+/* Projects API states and search */
+.project-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.project-search {
+  margin-top: 1rem;
+}
+
+.project-search label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.project-search input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.7rem;
+  font: inherit;
+  color: var(--text);
+  background: #ffffff;
+}
+
+.project-search input:focus {
+  outline: 2px solid #ffd3b3;
+  border-color: var(--primary);
+}
+
+.spinner-container,
+.error-message,
+.no-projects {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.spinner-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  color: var(--text-secondary);
+  background: #fff8f2;
+}
+
+.spinner {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 3px solid #ffd3b3;
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.error-message {
+  text-align: center;
+  background: #fff6ee;
+  border-left: 4px solid var(--primary);
+}
+
+.error-message p {
+  margin: 0 0 0.35rem;
+}
+
+.error-message .btn {
+  margin-top: 0.45rem;
+}
+
+.no-projects {
+  text-align: center;
+  color: var(--text-secondary);
+  background: #fff8f2;
+}
+
+.project-details-button {
+  width: 100%;
+  padding: 0.6rem 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
