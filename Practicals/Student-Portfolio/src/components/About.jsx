@@ -10,7 +10,7 @@ function About() {
         <h3>Currently learning:</h3>
         <ul className="learning-bullets">
           <li>React & MERN Stack</li>
-          <li>Data Analytics & Python</li>
+  
           <li>Cybersecurity fundamentals</li>
         </ul>
       </div>

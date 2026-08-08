@@ -1,0 +1,40 @@
+/* Basic app styles */
+body {
+	font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+	margin: 0;
+	padding: 0;
+	color: #111;
+}
+
+.search-bar {
+	margin: 1rem 0 1.5rem 0;
+}
+
+.search-input {
+	width: 100%;
+	max-width: 480px;
+	padding: 0.5rem 0.75rem;
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	font-size: 1rem;
+}
+
+.search-input:focus {
+	outline: none;
+	border-color: #6ca0f6;
+	box-shadow: 0 0 0 3px rgba(108,160,246,0.12);
+}
+
+.projects-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+	gap: 1rem;
+}
+
+.project-card {
+	padding: 1rem;
+	border: 1px solid #e6e6e6;
+	border-radius: 8px;
+	background: #fff;
+}
+
