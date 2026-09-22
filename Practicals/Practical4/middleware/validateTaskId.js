@@ -1,13 +1,12 @@
-const validateTaskId = (req, res, next) => {
-  const taskId = Number(req.params.id);
+const mongoose = require('mongoose');
 
-  if (!Number.isInteger(taskId) || taskId < 1) {
+const validateTaskId = (req, res, next) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({
       error: 'Invalid task ID'
     });
   }
 
-  req.params.id = String(taskId);
   next();
 };
 
