@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const logger = require('./middleware/logger');
 const validateContentType = require('./middleware/contentType');
 const taskRoutes = require('./routes/taskRoutes');
@@ -13,6 +14,7 @@ const PORT = process.env.PORT || 5000;
 app.use(logger);
 app.use(express.json());
 app.use(validateContentType);
+app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(taskRoutes);
 
 app.use((req, res) => {

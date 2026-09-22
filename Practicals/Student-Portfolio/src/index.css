@@ -160,6 +160,46 @@ li {
   box-shadow: 0 4px 10px rgba(45, 45, 45, 0.08);
 }
 
+.task-page-header { background: linear-gradient(135deg, #ffffff, #fff4e9); }
+.eyebrow { margin: 0 0 0.35rem; color: var(--primary); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.section-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.section-heading h2 { margin-bottom: 0; }
+.api-status, .task-count { padding: 0.35rem 0.65rem; border: 1px solid #b7dfc4; border-radius: 999px; background: #effaf2; color: #26733d; font-size: 0.78rem; font-weight: 700; white-space: nowrap; }
+.task-form { display: flex; flex-direction: column; gap: 0.8rem; }
+.task-form label { display: flex; flex-direction: column; gap: 0.35rem; font-weight: 600; }
+.task-form input:not([type='checkbox']), .task-form textarea, .task-form select { width: 100%; border: 1px solid var(--border); border-radius: 5px; padding: 0.65rem; font: inherit; color: var(--text); background: #ffffff; }
+.task-form input:focus, .task-form textarea:focus, .task-form select:focus { outline: 2px solid #ffd3b3; border-color: var(--primary); }
+.task-form-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; align-items: end; }
+.checkbox-label { flex-direction: row !important; align-items: center; padding-bottom: 0.7rem; }
+.checkbox-label input { accent-color: var(--primary); }
+.task-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.task-card { display: flex; flex-direction: column; min-height: 235px; }
+.task-card h3 { margin: 0; color: var(--text); font-size: 1.15rem; }
+.priority-badge, .status-complete, .status-open { border-radius: 4px; padding: 0.25rem 0.55rem; font-size: 0.75rem; font-weight: 700; }
+.priority-low, .status-complete { background: #edf7ef; color: #26733d; }
+.priority-medium, .status-open { background: #fff4dc; color: #8a5a00; }
+.priority-high { background: #ffebe7; color: #a6382d; }
+.task-meta { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: auto; padding-top: 1rem; color: var(--text-secondary); font-size: 0.8rem; }
+.task-actions { display: flex; gap: 0.55rem; margin-top: 1rem; }
+.task-actions .btn { padding: 0.55rem 0.8rem; font-size: 0.85rem; }
+.btn-secondary { background: #777; }
+.btn-danger { background: #a6382d; }
+.btn-secondary:hover { background: #5d5d5d; }
+.btn-danger:hover { background: #81251e; }
+.btn:disabled { cursor: wait; opacity: 0.65; }
+.pending-label { margin-top: auto; padding-top: 1rem; color: var(--primary); font-size: 0.85rem; font-weight: 700; }
+.task-pending { border-style: dashed; }
+.empty-state { color: var(--text-secondary); }
+.toast { position: fixed; top: 1.25rem; right: 1.25rem; z-index: 10; max-width: min(360px, calc(100vw - 2rem)); padding: 0.85rem 1rem; border-radius: 6px; box-shadow: 0 8px 22px rgba(45, 45, 45, 0.18); font-weight: 700; }
+.toast-success { background: #26733d; color: #ffffff; }
+.toast-error { background: #a6382d; color: #ffffff; }
+
+@media (max-width: 620px) {
+  .task-form-row { grid-template-columns: 1fr; }
+  .section-heading { flex-direction: column; }
+  .api-status, .task-count { align-self: flex-start; }
+}
+
 .project-tech {
   color: var(--primary);
   margin-bottom: 0;
