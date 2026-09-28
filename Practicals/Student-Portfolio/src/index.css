@@ -169,6 +169,20 @@ li {
 .task-form label { display: flex; flex-direction: column; gap: 0.35rem; font-weight: 600; }
 .task-form input:not([type='checkbox']), .task-form textarea, .task-form select { width: 100%; border: 1px solid var(--border); border-radius: 5px; padding: 0.65rem; font: inherit; color: var(--text); background: #ffffff; }
 .task-form input:focus, .task-form textarea:focus, .task-form select:focus { outline: 2px solid #ffd3b3; border-color: var(--primary); }
+.auth-page { min-height: calc(100vh - 82px); display: grid; place-items: center; padding: 3rem 1rem; background: radial-gradient(circle at 15% 10%, #fff1df 0, transparent 34%), radial-gradient(circle at 90% 85%, #ffe8d2 0, transparent 30%); }
+.auth-card { width: min(100%, 500px); margin: 0; padding: clamp(1.5rem, 4vw, 2.75rem); border-color: #f1d8c5; box-shadow: 0 18px 45px rgba(157, 83, 20, 0.1); animation: auth-card-enter 0.55s ease both; }
+.auth-card h1 { margin-bottom: 1.75rem; font-size: clamp(1.8rem, 5vw, 2.35rem); }
+.auth-card .task-form { gap: 1.15rem; }
+.auth-card .task-form label { color: #4d4038; font-size: 0.9rem; }
+.auth-card .task-form input:not([type='checkbox']) { min-height: 3rem; border-color: #e5d7ce; border-radius: 8px; padding: 0.78rem 0.9rem; transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease; }
+.auth-card .task-form input:not([type='checkbox']):hover { border-color: #d9bca8; }
+.auth-card .task-form input:not([type='checkbox']):focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(242, 140, 40, 0.14); transform: translateY(-1px); }
+.auth-card .btn { width: 100%; min-height: 3rem; border-radius: 8px; box-shadow: 0 7px 14px rgba(210, 106, 0, 0.2); transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease; }
+.auth-card .btn:hover:not(:disabled) { box-shadow: 0 10px 18px rgba(210, 106, 0, 0.26); transform: translateY(-1px); }
+.auth-footer { margin: 1.35rem 0 0; color: var(--text-secondary); text-align: center; font-size: 0.92rem; }
+.auth-footer a { color: var(--primary-hover); font-weight: 700; }
+.auth-footer a:hover { text-decoration: underline; text-underline-offset: 3px; }
+@keyframes auth-card-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .task-form-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1rem; align-items: end; }
 .checkbox-label { flex-direction: row !important; align-items: center; padding-bottom: 0.7rem; }
 .checkbox-label input { accent-color: var(--primary); }
@@ -198,6 +212,8 @@ li {
   .task-form-row { grid-template-columns: 1fr; }
   .section-heading { flex-direction: column; }
   .api-status, .task-count { align-self: flex-start; }
+  .auth-page { min-height: calc(100vh - 136px); padding: 1.5rem 1rem; }
+  .auth-card { padding: 1.35rem; }
 }
 
 .project-tech {

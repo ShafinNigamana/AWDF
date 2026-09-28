@@ -1,10 +1,11 @@
 import { NavLink } from 'react-router-dom';
 
-function NavBar() {
+function NavBar({ isAuthenticated, onLogout }) {
   const navItems = [
     { to: '/', label: 'Home', end: true },
     { to: '/projects', label: 'Tasks' },
     { to: '/contact', label: 'Contact' },
+    ...(!isAuthenticated ? [{ to: '/login', label: 'Login' }] : []),
   ];
 
   return (
@@ -25,6 +26,7 @@ function NavBar() {
             </li>
           ))}
         </ul>
+        {isAuthenticated && <button className="nav-link nav-button" type="button" onClick={onLogout}>Logout</button>}
       </div>
     </nav>
   );

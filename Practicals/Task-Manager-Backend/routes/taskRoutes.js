@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const authenticate = require('../middleware/auth');
 const validateTaskId = require('../middleware/validateTaskId');
+const validateTask = require('../middleware/validateTask');
 const Task = require('../models/Task');
 
-router.get('/tasks', async (req, res, next) => {
+router.get('/tasks', authenticate, async (req, res, next) => {
   try {
     const tasks = await Task.find();
     res.status(200).json(tasks);
@@ -12,7 +14,7 @@ router.get('/tasks', async (req, res, next) => {
   }
 });
 
-router.post('/tasks', async (req, res, next) => {
+router.post('/tasks', authenticate, validateTask, async (req, res, next) => {
   try {
     const task = await Task.create(req.body);
     res.status(201).json(task);
@@ -21,7 +23,7 @@ router.post('/tasks', async (req, res, next) => {
   }
 });
 
-router.get('/tasks/:id', validateTaskId, async (req, res, next) => {
+router.get('/tasks/:id', authenticate, validateTaskId, async (req, res, next) => {
   try {
     const task = await Task.findById(req.params.id);
 
@@ -35,7 +37,7 @@ router.get('/tasks/:id', validateTaskId, async (req, res, next) => {
   }
 });
 
-router.put('/tasks/:id', validateTaskId, async (req, res, next) => {
+router.put('/tasks/:id', authenticate, validateTaskId, validateTask, async (req, res, next) => {
   try {
     const task = await Task.findByIdAndUpdate(
       req.params.id,
@@ -53,7 +55,7 @@ router.put('/tasks/:id', validateTaskId, async (req, res, next) => {
   }
 });
 
-router.delete('/tasks/:id', validateTaskId, async (req, res, next) => {
+router.delete('/tasks/:id', authenticate, validateTaskId, async (req, res, next) => {
   try {
     const task = await Task.findByIdAndDelete(req.params.id);
 
