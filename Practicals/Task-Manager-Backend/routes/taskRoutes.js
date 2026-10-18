@@ -12,6 +12,7 @@ const {
   invalidateAllTaskCache,
   getDebugStats
 } = require('../utils/cache');
+const { taskEventEmitter } = require('../events/taskEvents');
 
 router.get('/tasks/cache/stats', authenticate, (req, res) => {
   res.status(200).json(getDebugStats());
@@ -40,6 +41,16 @@ router.post('/tasks', authenticate, validateTask, async (req, res, next) => {
   try {
     const task = await Task.create(req.body);
     invalidateTaskListCache();
+
+    const responseTimestamp = new Date().toISOString();
+    taskEventEmitter.emit('task-created', {
+      taskId: task._id.toString(),
+      title: task.title,
+      assignedUser: req.user.id,
+      emittedAt: responseTimestamp
+    });
+
+    console.log(`[HTTP Response] POST /tasks 201 Created sent at ${responseTimestamp} for task "${task.title}"`);
     return res.status(201).json(task);
   } catch (error) {
     return next(error);
@@ -98,6 +109,16 @@ router.delete('/tasks/:id', authenticate, validateTaskId, async (req, res, next)
     }
 
     invalidateAllTaskCache(req.params.id);
+
+    const responseTimestamp = new Date().toISOString();
+    taskEventEmitter.emit('task-deleted', {
+      taskId: task._id.toString(),
+      title: task.title,
+      deletedBy: req.user.id,
+      emittedAt: responseTimestamp
+    });
+
+    console.log(`[HTTP Response] DELETE /tasks/:id 200 OK sent at ${responseTimestamp} for task "${task.title}"`);
     return res.status(200).json({
       message: 'Task deleted successfully',
       data: task
