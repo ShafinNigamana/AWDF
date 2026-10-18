@@ -1,7 +1,22 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { createTask, deleteTask, getTasks, updateTask } from '../api/api';
 import Spinner from '../components/Spinner';
 import Toast from '../components/Toast';
+
+const delayImport = (importer, minDelayMs = 300) =>
+  new Promise((resolve, reject) => {
+    const startedAt = Date.now();
+
+    importer()
+      .then((module) => {
+        const elapsed = Date.now() - startedAt;
+        const waitTime = Math.max(0, minDelayMs - elapsed);
+        window.setTimeout(() => resolve(module), waitTime);
+      })
+      .catch(reject);
+  });
+
+const TaskSummary = lazy(() => delayImport(() => import('../components/TaskSummary')));
 
 const emptyForm = { title: '', description: '', priority: 'medium', completed: false };
 
@@ -132,19 +147,26 @@ function Projects() {
         {loading && <Spinner />}
         {loadError && <div className="error-message" role="alert"><p>{loadError}</p><button type="button" className="btn" onClick={() => loadTasks()}>Retry</button></div>}
         {!loading && !loadError && tasks.length === 0 && <p className="empty-state">No tasks yet. Add your first one above.</p>}
-        {!loading && !loadError && tasks.length > 0 && <div className="projects-grid task-grid">
-          {tasks.map((task) => <article className={`project-card task-card ${task.isPending ? 'task-pending' : ''}`} key={task._id}>
-            {editingId === task._id ? <form className="task-form" onSubmit={(event) => handleUpdate(event, task._id)}>
-              <TaskFields values={editForm} onChange={(event) => changeForm(event, setEditForm)} />
-              <div className="task-actions"><button className="btn" type="submit" disabled={updatingId === task._id}>{updatingId === task._id ? 'Updating...' : 'Save changes'}</button><button className="btn btn-secondary" type="button" onClick={() => setEditingId(null)}>Cancel</button></div>
-            </form> : <>
-              <div className="project-card-header"><h3>{task.title}</h3><span className={`priority-badge priority-${task.priority}`}>{task.priority}</span></div>
-              <p>{task.description || 'No description provided.'}</p>
-              <div className="task-meta"><span className={task.completed ? 'status-complete' : 'status-open'}>{task.completed ? 'Completed' : 'In progress'}</span><span>Created {task.createdAt ? new Date(task.createdAt).toLocaleDateString() : 'Date unavailable'}</span></div>
-              {task.isPending ? <p className="pending-label">Saving to MongoDB...</p> : <div className="task-actions">{!task.completed && <button className="btn" type="button" onClick={() => startEditing(task)}>Edit</button>}<button className="btn btn-danger" type="button" onClick={() => handleDelete(task._id)} disabled={deletingId === task._id}>{deletingId === task._id ? 'Deleting...' : 'Delete'}</button></div>}
-            </>}
-          </article>)}
-        </div>}
+        {!loading && !loadError && tasks.length > 0 && (
+          <>
+            <Suspense fallback={<div className="loading-panel">Loading task summary...</div>}>
+              <TaskSummary tasks={tasks} />
+            </Suspense>
+            <div className="projects-grid task-grid">
+              {tasks.map((task) => <article className={`project-card task-card ${task.isPending ? 'task-pending' : ''}`} key={task._id}>
+                {editingId === task._id ? <form className="task-form" onSubmit={(event) => handleUpdate(event, task._id)}>
+                  <TaskFields values={editForm} onChange={(event) => changeForm(event, setEditForm)} />
+                  <div className="task-actions"><button className="btn" type="submit" disabled={updatingId === task._id}>{updatingId === task._id ? 'Updating...' : 'Save changes'}</button><button className="btn btn-secondary" type="button" onClick={() => setEditingId(null)}>Cancel</button></div>
+                </form> : <>
+                  <div className="project-card-header"><h3>{task.title}</h3><span className={`priority-badge priority-${task.priority}`}>{task.priority}</span></div>
+                  <p>{task.description || 'No description provided.'}</p>
+                  <div className="task-meta"><span className={task.completed ? 'status-complete' : 'status-open'}>{task.completed ? 'Completed' : 'In progress'}</span><span>Created {task.createdAt ? new Date(task.createdAt).toLocaleDateString() : 'Date unavailable'}</span></div>
+                  {task.isPending ? <p className="pending-label">Saving to MongoDB...</p> : <div className="task-actions">{!task.completed && <button className="btn" type="button" onClick={() => startEditing(task)}>Edit</button>}<button className="btn btn-danger" type="button" onClick={() => handleDelete(task._id)} disabled={deletingId === task._id}>{deletingId === task._id ? 'Deleting...' : 'Delete'}</button></div>}
+                </>}
+              </article>)}
+            </div>
+          </>
+        )}
       </section>
     </main>
   );
