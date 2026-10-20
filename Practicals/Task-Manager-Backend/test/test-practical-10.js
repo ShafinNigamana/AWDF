@@ -23,6 +23,7 @@ app.use((req, res) => res.status(404).json({ error: 'Route not found' }));
 app.use(errorHandler);
 
 async function runTests() {
+  assert.strictEqual('PASS', 'FAIL', 'Deliberate test failure for Practical 12 CI failure demonstration');
   console.log('--- Starting Practical 10 Automated Test Suite ---');
   process.env.SIMULATE_SLOW_NOTIFICATION = 'true';
 
