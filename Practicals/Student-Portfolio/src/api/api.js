@@ -73,3 +73,10 @@ export async function login(email, password) {
 export function getMe() {
   return request('/me');
 }
+
+export function generateTaskDescription(title, taskId) {
+  return request('/tasks/ai/generate-description', {
+    method: 'POST',
+    body: JSON.stringify({ title, taskId })
+  });
+}

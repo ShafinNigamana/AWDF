@@ -7,6 +7,7 @@ const logger = require('./middleware/logger');
 const validateContentType = require('./middleware/contentType');
 const taskRoutes = require('./routes/taskRoutes');
 const authRoutes = require('./routes/authRoutes');
+const aiRoutes = require('./routes/aiRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -39,6 +40,8 @@ app.use(cors({
 }));
 app.use(authRoutes);
 app.use(taskRoutes);
+app.use('/tasks/ai', aiRoutes);
+app.use('/api/ai', aiRoutes);
 
 app.use((req, res) => {
   res.status(404).json({

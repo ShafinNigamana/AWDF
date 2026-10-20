@@ -5,9 +5,10 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node test/test-practical-9.js && node test/test-practical-10.js",
+    "test": "node test/test-practical-9.js && node test/test-practical-10.js && node test/test-practical-13.js",
     "test:p9": "node test/test-practical-9.js",
-    "test:p10": "node test/test-practical-10.js"
+    "test:p10": "node test/test-practical-10.js",
+    "test:p13": "node test/test-practical-13.js"
   },
   "keywords": [],
   "author": "",
